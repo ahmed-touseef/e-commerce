@@ -1,3 +1,7 @@
-{% extends "base.html" %}
-{% block title %}Eurofiora · Admin{% endblock %}
-{% block content %}<h1>Amministrazione</h1><p>Pannello di controllo, in preparazione.</p>{% endblock %}
+{% extends "admin/base.html" %}
+{% block title %}Panoramica{% endblock %}
+{% block content %}
+<h1>Panoramica</h1>
+<p class="intro">Buongiorno, {{ user.name }}.</p>
+<p class="empty">Nessun dato ancora. Catalogo, fornitori e ordini compariranno qui man mano che vengono aggiunti.</p>
+{% endblock %}

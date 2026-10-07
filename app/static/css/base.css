@@ -1,0 +1,51 @@
+/* Design tokens: values copied exactly from design.md. Do not add shades. */
+:root {
+  --paper: #FFFFFF;
+  --stone: #F4F1EC;
+  --ink: #171614;
+  --ink-soft: #6B665F;
+  --line: #E3DED6;
+  --leaf: #1E4A38;
+  --alert: #A8321F;
+
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-text: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --container: 1440px;
+  --pad: 20px;
+  --section: 64px;
+}
+@media (min-width: 900px) {
+  :root { --pad: 48px; --section: 96px; }
+}
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; box-shadow: none; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--font-text); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+:focus-visible { outline: 1px solid var(--leaf); outline-offset: 2px; }
+
+.label { font: 500 12px/1.4 var(--font-text); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.small { font-size: 14px; line-height: 1.5; }
+.muted { color: var(--ink-soft); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px;
+       font: 500 15px/1 var(--font-text); border: 1px solid var(--ink); cursor: pointer; text-decoration: none;
+       transition: background-color .18s ease-out, border-color .18s ease-out; }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: var(--leaf); border-color: var(--leaf); }
+.btn-secondary { background: transparent; color: var(--ink); }
+.btn-block { width: 100%; }
+.btn-text { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer;
+            text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* Forms */
+.field { margin-bottom: 24px; }
+.field label { display: block; font-size: 14px; line-height: 1.5; margin-bottom: 8px; }
+.field input { width: 100%; height: 48px; padding: 0 16px; border: 1px solid var(--line); background: var(--paper);
+               font: 400 16px var(--font-text); color: var(--ink); }
+.field input:hover { background: var(--stone); }
+.field input:focus { outline: none; border-color: var(--leaf); }
+.form-error { color: var(--alert); font-size: 14px; line-height: 1.5; margin: 0 0 24px; }

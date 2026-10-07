@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="it">
+<head>
+{% include "admin/_head.html" %}
+<title>{% block title %}Admin{% endblock %} · Eurofiora</title>
+</head>
+<body>
+<div class="tool">
+  <nav class="tool-nav" aria-label="Admin">
+    <div class="tool-brand">
+      <span class="wordmark">Eurofiora</span>
+      <span class="label">Admin</span>
+    </div>
+    <ul>
+      <li><a href="/" {% if nav == "home" %}aria-current="page"{% endif %}>Panoramica</a></li>
+    </ul>
+    <div class="tool-user">
+      {{ user.name }}
+      <form method="post" action="/logout">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <button type="submit" class="btn-text muted">Esci</button>
+      </form>
+    </div>
+  </nav>
+  <main class="tool-main">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+/* Admin and vendor tools: same tokens, denser layout (design.md section 9). */
+.tool { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+.tool-nav { border-right: 1px solid var(--line); padding: 32px 0; display: flex; flex-direction: column; }
+.tool-brand { padding: 0 24px 32px; }
+.tool-brand .wordmark { font: 400 22px/1.2 var(--font-display); display: block; }
+.tool-nav ul { list-style: none; margin: 0; padding: 0; }
+.tool-nav li a { display: block; padding: 8px 24px; text-decoration: none; font-size: 15px;
+                 border-left: 2px solid transparent; }
+.tool-nav li a[aria-current="page"] { border-left-color: var(--ink); }
+.tool-nav li a:hover { color: var(--ink-soft); }
+.tool-user { margin-top: auto; padding: 24px 24px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+.tool-user form { margin-top: 4px; }
+.tool-main { padding: 48px; max-width: 1200px; }
+.tool-main h1 { font-size: 32px; line-height: 1.15; margin-bottom: 8px; }
+.tool-main .intro { color: var(--ink-soft); max-width: 64ch; margin: 0 0 48px; }
+.empty { border-top: 1px solid var(--line); padding-top: 24px; color: var(--ink-soft); max-width: 64ch; }
+
+@media (max-width: 899px) {
+  .tool { grid-template-columns: 1fr; }
+  .tool-nav { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px 0; flex-direction: row;
+              align-items: center; flex-wrap: wrap; }
+  .tool-brand { padding: 0 20px; }
+  .tool-nav ul { display: flex; }
+  .tool-nav li a { padding: 8px 12px; border-left: 0; border-bottom: 2px solid transparent; }
+  .tool-nav li a[aria-current="page"] { border-bottom-color: var(--ink); }
+  .tool-user { margin: 0 0 0 auto; padding: 0 20px; border-top: 0; }
+  .tool-main { padding: 32px 20px; }
+  .tool-main h1 { font-size: 26px; }
+}
+
+/* Sign in */
+.signin { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 48px 20px; }
+.signin-box { width: 100%; max-width: 360px; }
+.signin-box .wordmark { font: 400 28px/1.2 var(--font-display); display: block; margin-bottom: 4px; }
+.signin-box .label { display: block; margin-bottom: 48px; }
+.signin-box h1 { font-size: 26px; line-height: 1.15; margin-bottom: 32px; }

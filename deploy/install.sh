@@ -51,6 +51,7 @@ mkdir -p "$DEST"
 rm -rf "$DEST/app"
 cp -a "$SRC/app" "$DEST/app"
 cp "$SRC/requirements.txt" "$DEST/requirements.txt"
+cp "$SRC/alembic.ini" "$DEST/alembic.ini"
 echo "ok"
 
 say "Database password (.env)"
@@ -69,6 +70,10 @@ ENV
   echo "created new .env"
 fi
 chmod 600 "$DEST/.env"
+if ! grep -q '^SECRET_KEY=' "$DEST/.env"; then
+  printf 'SECRET_KEY=%s\n' "$(openssl rand -hex 32)" >> "$DEST/.env"
+  echo "added SECRET_KEY to .env"
+fi
 
 say "PostgreSQL role and database ($DB_NAME, separate from FreshFlow)"
 pg() { (cd /tmp && sudo -u postgres psql -v ON_ERROR_STOP=1 -tAc "$1"); }
@@ -97,6 +102,10 @@ if [ ! -x "$DEST/.venv/bin/python" ]; then
 fi
 "$DEST/.venv/bin/pip" install -q --upgrade pip
 "$DEST/.venv/bin/pip" install -q -r "$DEST/requirements.txt"
+echo "ok"
+
+say "Database migrations"
+(cd "$DEST" && .venv/bin/alembic upgrade head)
 echo "ok"
 
 say "systemd service $SERVICE (port $PORT)"
@@ -154,11 +163,18 @@ bad=0
 for h in "${HOSTS[@]}"; do
   portal="${h%%.*}"
   body="$(curl -s "https://$h/healthz" || true)"
-  code="$(curl -s -o /dev/null -w '%{http_code}' "https://$h/" || true)"
-  if [[ "$body" == *"\"portal\":\"$portal\""* ]] && [ "$code" = "200" ]; then
-    echo "PASS  https://$h  (page 200, portal $portal, database ok)"
+  if [ "$portal" = "admin" ]; then
+    page="/login"
+    root="$(curl -s -o /dev/null -w '%{http_code}' "https://$h/" || true)"
   else
-    echo "FAIL  https://$h  page=$code healthz=$body"; bad=1
+    page="/"
+    root="303"
+  fi
+  code="$(curl -s -o /dev/null -w '%{http_code}' "https://$h$page" || true)"
+  if [[ "$body" == *"\"portal\":\"$portal\""* ]] && [ "$code" = "200" ] && [ "$root" = "303" ]; then
+    echo "PASS  https://$h  (page $page 200, portal $portal, database ok)"
+  else
+    echo "FAIL  https://$h  page$page=$code root=$root healthz=$body"; bad=1
   fi
 done
 code="$(curl -s -o /dev/null -w '%{http_code}' https://www.eurofiora.it/ || true)"
@@ -166,3 +182,7 @@ if [ "$code" = "200" ]; then echo "PASS  https://www.eurofiora.it  (FreshFlow un
 
 [ "$bad" = "0" ] || fail "see FAIL lines above"
 printf '\nDeploy complete. Backup: %s\n' "$BACKUP"
+admins="$( (cd /tmp && sudo -u postgres psql -d "$DB_NAME" -tAc "SELECT count(*) FROM admin_user") 2>/dev/null || echo 0)"
+if [ "$admins" = "0" ]; then
+  printf '\nNo admin account yet. Create one with:\n  cd %s && .venv/bin/python -m app.cli create-admin\n' "$DEST"
+fi

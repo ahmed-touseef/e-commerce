@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=ROOT / ".env", extra="ignore")
 
     database_url: str
+    secret_key: str
     shop_host: str = "shop.eurofiora.it"
     app_host: str = "app.eurofiora.it"
     admin_host: str = "admin.eurofiora.it"

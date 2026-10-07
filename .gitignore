@@ -1,0 +1,17 @@
+# secrets and local environment
+.env
+.env.*
+.venv/
+__pycache__/
+*.pyc
+*.db
+
+# bundles and downloads
+*.tar.gz
+*.zip
+
+# reference study copy of other sites: never commit
+flowershop/
+www.poho.com.au/
+cdn.shopify.com/
+reference/

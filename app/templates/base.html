@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Eurofiora{% endblock %}</title>
+<style>
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: #1f2a24; background: #f6f5f1; }
+  main { max-width: 34rem; margin: 18vh auto 0; padding: 0 1.5rem; }
+  h1 { font-weight: normal; font-size: 2rem; margin: 0 0 .5rem; }
+  p { font-family: system-ui, sans-serif; font-size: .95rem; color: #5b635e; margin: 0; }
+</style>
+</head>
+<body>
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>
